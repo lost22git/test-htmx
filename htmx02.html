@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh">
+
+<head>
+  <title>htmx02-hyperscript-tailwindcss</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+  <!-- 居中窗口 -->
+  <div class="h-screen flex items-center justify-center">
+    <!-- tabs -->
+    <div id="tabs" class="w-96 h-64 mx-4 flex flex-col space-y-4">
+      <!-- tabs-bar -->
+      <div id="tabs-bar" role="tablist" class="grid grid-cols-2 gap-4">
+        <div role="tab" class="text-center" _="on click show #login-tabpanel then hide #register-tabpanel">
+          登录
+        </div>
+        <div role="tab" class="text-center" _="on click show #register-tabpanel then hide #login-tabpanel">
+          注册
+        </div>
+      </div>
+      <!-- 登录tabpanel -->
+      <div id="login-tabpanel" role="tabpanel" class="grow flex flex-col justify-between">
+        <div class="h-8 flex flex-row">
+          <div class="w-32 text-center">邮箱</div>
+          <input class="grow" type="text" name="mail" value="" placeholder="email" />
+        </div>
+        <div class="h-8 flex flex-row">
+          <div class="w-32 text-center">密码</div>
+          <input class="grow" type="password" name="password" value="" placeholder="password" />
+        </div>
+        <div class="h-8 flex flex-row">
+        </div>
+        <div class="h-8 flex flex-row">
+        </div>
+        <div class="h-8 flex flex-row">
+          <div class="text-center flex-1" _="on click call alert('登录中...')">
+            登录
+          </div>
+          <div class="text-center flex-1" _="on click call alert('忘记密码...')">
+            忘记密码
+          </div>
+        </div>
+      </div>
+      <!-- 注册tabpanel -->
+      <div id="register-tabpanel" role="tabpanel" class="grow flex flex-col justify-between" _="on load hide">
+        <div class="h-8 flex flex-row">
+          <div class="w-32 text-center">邮箱</div>
+          <input class="grow" type="text" name="mail" value="" placeholder="email" />
+        </div>
+        <div class="h-8 flex flex-row">
+          <div class="w-32 text-center">密码</div>
+          <input class="grow" type="password" name="password" value="" placeholder="password" />
+        </div>
+        <div class="h-8 flex flex-row">
+          <div class="w-32 text-center">密码确认</div>
+          <input class="grow" type="password" name="passwordResubmit" value="" placeholder="password" />
+        </div>
+        <div class="h-8 flex flex-row">
+          <div class="w-32 text-center">验证码</div>
+          <input class="grow" type="text" name="code" value="" placeholder="code">
+        </div>
+        <div class="h-8 text-center" _="on click call alert('注册中...')">
+          注册
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+
+</html>

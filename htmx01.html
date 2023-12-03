@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh">
+
+<head>
+  <title>htmx01-hyperscript</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
+</head>
+
+<body>
+  <!-- 居中窗口 -->
+  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);">
+    <!-- tabs 控制器 -->
+    <div id="tabs-bar" role="tablist">
+      <div role="tab" style="display: inline" _="on click show #login-tabpanel then hide #register-tabpanel">
+        登录
+      </div>
+      <div role="tab" style="display: inline;" _="on click show #register-tabpanel then hide #login-tabpanel">
+        注册
+      </div>
+    </div>
+    <!-- 登录tabpanel -->
+    <div id="login-tabpanel" role="tabpanel">
+      <form id="login-form" role="form">
+        <table>
+          <tr>
+            <td><span>邮箱</span></td>
+            <td>
+              <input type="text" name="mail" value="" placeholder="email" />
+            </td>
+          </tr>
+          <tr>
+            <td><span>密码</span></td>
+            <td>
+              <input type="password" name="password" value="" placeholder="password" />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="btn primary" _="on click call alert('登录中...')">
+                登录
+              </div>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+    <!-- 注册tabpanel -->
+    <div id="register-tabpanel" role="tabpanel" _="on load hide">
+      <form id="register-form" role="form">
+        <table>
+          <tr>
+            <td><span>邮箱</span></td>
+            <td>
+              <input type="text" name="mail" value="" placeholder="email" />
+            </td>
+          </tr>
+          <tr>
+            <td><span>密码</span></td>
+            <td>
+              <input type="password" name="password" value="" placeholder="password" />
+            </td>
+          </tr>
+          <tr>
+            <td><span>密码确认</span></td>
+            <td>
+              <input type="password" name="passwordResubmit" value="" placeholder="password" />
+            </td>
+          </tr>
+          <tr>
+            <td><span>验证码</span></td>
+            <td>
+              <input type="text" name="code" value="" placeholder="code">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="btn primary" _="on click call alert('注册中...')">
+                注册
+              </div>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>
