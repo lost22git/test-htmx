@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh">
+
+<head>
+  <title>htmx03-hyperscript-tailwindcss</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script type="text/hyperscript">
+    def handleSwitchTabForTabButton(toTab, tab, el, d)
+      set borderRadius to `rounded-${d}-full`
+      if toTab is tab
+        log `switchTab to ${toTab}`
+        add .bg-blue-400 .text-white to el
+        add .{borderRadius} to el
+      else 
+        remove .bg-blue-400 .text-white from el
+        remove .{borderRadius} from el
+      end
+    end
+
+    def handleSwitchTabForTabpanel(toTab, tab, el)
+      if toTab is tab
+        show el
+      else
+        hide el
+      end
+    end
+  </script>
+</head>
+
+<body>
+  <!-- 居中窗口 -->
+  <div class="h-screen flex items-center justify-center">
+    <!-- tabs -->
+    <div id="tabs" class="w-96 h-80 mx-4 bg-blue-100 rounded-md border-2 flex flex-col space-y-4">
+      <!-- tabs-bar -->
+      <div id="tabs-bar" role="tablist" class="h-9 bg-slate-100 grid grid-cols-2 -space-x-4"
+        _="on load send switchTab(toTab:'login') to <div/> in #tabs">
+        <div id="login-tab-button" role="tab" class="text-slate-800 text-center hover:brightness-90" _="
+          on click send switchTab(toTab:'login') to <div/> in #tabs
+            on switchTab(toTab) call handleSwitchTabForTabButton(toTab, 'login', #{my.id}, 'r')
+        ">
+          登录
+        </div>
+        <div id="register-tab-button" role="tab" class="text-slate-800 text-center hover:brightness-90" _="
+          on click send switchTab(toTab: 'register') to <div/> in #tabs
+          on switchTab(toTab) call handleSwitchTabForTabButton(toTab, 'register', #{my.id}, 'l')
+        ">
+          注册
+        </div>
+      </div>
+      <!-- 登录tabpanel -->
+      <div id="login-tabpanel" role="tabpanel" class="px-4 grow flex flex-col" _="
+          on switchTab(toTab) call handleSwitchTabForTabpanel(toTab, 'login', #{my.id}) 
+      ">
+        <div class="flex flex-col">
+          <input class="peer px-2 h-8 border-2 rounded-md" type="email" name="email" value="" placeholder="邮箱" />
+          <p class="invisible peer-invalid:visible text-pink-600 text-sm">
+            请输入有效邮箱
+          </p>
+        </div>
+        <div class="flex flex-col">
+          <input class="peer px-2 h-8 border-2 rounded-md" type="password" name="password" value="" placeholder="密码" />
+          <p class="invisible peer-invalid:visible text-pink-600 text-sm">
+            请输入有效密码
+          </p>
+        </div>
+        <div class="flex flex-col space-y-4">
+          <div class="h-9 text-center bg-blue-400 text-white border-2 rounded-md hover:brightness-90"
+            _="on click call alert('登录中...')">
+            登录
+          </div>
+          <div class="h-9 text-center bg-slate-100 border-2 rounded-md hover:brightness-90"
+            _="on click call alert('忘记密码...')">
+            忘记密码
+          </div>
+        </div>
+      </div>
+      <!-- 注册tabpanel -->
+      <div id="register-tabpanel" role="tabpanel" class="px-4 grow flex flex-col" _="
+          on switchTab(toTab) call handleSwitchTabForTabpanel(toTab, 'register', #{my.id}) 
+      ">
+        <div class="flex flex-col">
+          <input class="peer px-2 h-8 border-2 rounded-md" type="email" name="email" value="" placeholder="邮箱" />
+          <p class="invisible peer-invalid:visible text-pink-600 text-sm">
+            请输入有效邮箱
+          </p>
+        </div>
+        <div class="flex flex-col">
+          <input class="peer px-2 h-8 border-2 rounded-md" type="password" name="password" value="" placeholder="密码" />
+          <p class="invisible peer-invalid:visible text-pink-600 text-sm">
+            请输入有效密码
+          </p>
+        </div>
+        <div class="flex flex-col">
+          <input class="peer px-2 h-8 border-2 rounded-md" type="password" name="submitPassword" value=""
+            placeholder="密码确认" />
+          <p class="invisible peer-invalid:visible text-pink-600 text-sm">
+            密码不一致
+          </p>
+        </div>
+        <div class="flex flex-col">
+          <input class="peer px-2 h-8 border-2 rounded-md" type="text" name="code" value="" placeholder="验证码">
+          <p class="invisible peer-invalid:visible text-pink-600 text-sm">
+            验证码无效
+          </p>
+        </div>
+        <div class="h-9 text-centerh-8 text-center bg-blue-400 text-white border-2 rounded-md hover:brightness-90"
+          _="on click call alert('注册中...')">
+          注册
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+
+</html>
