@@ -18,7 +18,7 @@
         _="on load send switchTab(toTab:'login') to <div/> in #tabs">
         <div id="login-tab-button" role="tab" class="transition text-slate-800 text-center hover:brightness-90
             aria-selected:bg-blue-400 aria-selected:text-white aria-selected:rounded-r-full" _="
-          on click send switchTab(toTab:'login') to <div/> in #tabs
+            on click send switchTab(toTab:'login') to <div/> in #tabs
             on switchTab(toTab) call handleSwitchTabForTabButton(toTab, 'login', #{my.id})
         ">
           登录
@@ -50,8 +50,18 @@
             </p>
           </div>
           <div class="flex flex-col space-y-4">
-            <div class="h-9 text-center bg-blue-400 text-white border-2 rounded-md hover:brightness-90" role="button"
-              _="on click call alert('登录中...')">
+            <div class="h-9 text-center bg-blue-400 text-white border-2 rounded-md hover:brightness-90" role="button" _="
+                on click queue none
+                  add @disabled
+                  set reqBody to {}
+                  repeat in <input/> in #login-tabpanel
+                    set reqBody[it.name] to it.value
+                  end
+                  call postJson('https://httpbin.org/post', {}, reqBody)
+                  log result
+                finally
+                  remove @disabled 
+            ">
               登录
             </div>
             <div class="h-9 text-center bg-slate-100 border-2 rounded-md hover:brightness-90" role="button"
@@ -61,7 +71,7 @@
           </div>
         </div>
         <!-- 注册tabpanel -->
-        <div id="register-tabpanel" role="tabpanel" class=" transition h-full p-4 bg-indigo-100 flex flex-col" _="
+        <div id="register-tabpanel" role="tabpanel" class="transition h-full p-4 bg-indigo-100 flex flex-col" _="
           on switchTab(toTab) call handleSwitchTabForTabpanel(toTab, 'register', #{my.id}) 
       ">
           <div class="flex flex-col">
@@ -73,7 +83,7 @@
           <div class="flex flex-col">
             <input id="register-password" class="peer px-2 h-8 border-2 rounded-md" type="password" name="password"
               value="" placeholder="密码" _="
-                on keyup call checkPasswordSubmit()
+                on keyup queue last call checkPasswordSubmit()
             " />
             <p class="invisible peer-invalid:visible text-pink-600 text-sm">
               请输入有效密码
@@ -82,7 +92,7 @@
           <div class="flex flex-col">
             <input id="register-password-submit" class="peer px-2 h-8 border-2 rounded-md" type="password"
               name="passwordSubmit" value="" placeholder="密码确认" _="
-                on keyup call checkPasswordSubmit()
+                on keyup queue last call checkPasswordSubmit()
             " />
             <p class="invisible peer-required:visible text-pink-600 text-sm">
               密码不一致
@@ -94,8 +104,18 @@
               验证码无效
             </p>
           </div>
-          <div class="h-9 text-center bg-indigo-400 text-white border-2 rounded-md hover:brightness-90" role="button"
-            _="on click call alert('注册中...')">
+          <div class="h-9 text-center bg-indigo-400 text-white border-2 rounded-md hover:brightness-90" role="button" _="
+              on click queue none
+                add @disabled
+                set reqBody to {}
+                repeat in <input/> in #register-tabpanel
+                  set reqBody[it.name] to it.value
+                end
+                call postJson('https://httpbin.org/post', {}, reqBody)
+                log result
+              finally
+                remove @disabled 
+          ">
             注册
           </div>
         </div>
@@ -105,6 +125,13 @@
 </body>
 <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
 <script type="text/hyperscript">
+
+    def postJson(url, reqHeaders, reqBody)
+      set reqHeaders['Content-Type'] to 'application/json'
+      fetch `${url}` with method:'POST', headers: reqHeaders, body: reqBody as JSON
+      return result
+    end
+    
     def handleSwitchTabForTabButton(toTab, tab, el)
       if toTab is tab
         log `switchTab to ${toTab}`
@@ -112,6 +139,7 @@
       else 
         remove @aria-selected=true from el
       end
+      settle
     end
 
     def handleSwitchTabForTabpanel(toTab, tab, el)
@@ -120,6 +148,7 @@
       else
         hide el
       end
+      settle
     end
     
     def checkPasswordSubmit() 
