@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>htmx04-form-json-template</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+  <div class="h-screen flex flex-col items-center justify-center space-y-4">
+    <div class="basis-1/3 flex flex-col items-center justify-center text-4xl font-bold underline underline-offset-8">
+      LOGIN
+    </div>
+    <div class="basis-1/3 flex flex-col items-center justify-center" hx-ext="client-side-templates">
+      <form class="w-64 border-4 rounded-md p-4 flex flex-col items-center space-y-4" hx-post="https://httpbin.org/post"
+        hx-ext='json-enc' hx-target="#result" hx-swap="innerHTML" handlebars-template="result-template">
+        <input class="h-10 border-2 rounded-md p-2" type="email" name="email" value="" , placeholder="email">
+        <input class="h-10 border-2 rounded-md p-2" type="password" name="password" value="" placeholder="password">
+        <button class="w-32 bg-blue-300 border-2 rounded-md p-2 relative" type="submit" hx-indicator="#spinner">
+          submit
+          <!-- svg -->
+          <svg id="spinner" width="30" height="30" class="htmx-indicator absolute inset-y-0 right-0"
+            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+            style="margin: auto; background: none; display: block; shape-rendering: auto;" width="200px" height="200px"
+            viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+            <g transform="rotate(0 50 50)">
+              <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#000000">
+                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.9166666666666666s"
+                  repeatCount="indefinite"></animate>
+              </rect>
+            </g>
+            <g transform="rotate(30 50 50)">
+              <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#000000">
+                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.8333333333333334s"
+                  repeatCount="indefinite"></animate>
+              </rect>
+            </g>
+            <g transform="rotate(60 50 50)">
+              <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#000000">
+                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.75s"
+                  repeatCount="indefinite"></animate>
+              </rect>
+            </g>
+            <g transform="rotate(90 50 50)">
+              <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#000000">
+                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.6666666666666666s"
+                  repeatCount="indefinite"></animate>
+              </rect>
+            </g>
+            <g transform="rotate(120 50 50)">
+              <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#000000">
+                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.5833333333333334s"
+                  repeatCount="indefinite"></animate>
+              </rect>
+            </g>
+            <g transform="rotate(150 50 50)">
+              <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#000000">
+                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.5s"
+                  repeatCount="indefinite"></animate>
+              </rect>
+            </g>
+            <g transform="rotate(180 50 50)">
+              <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#000000">
+                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.4166666666666667s"
+                  repeatCount="indefinite"></animate>
+              </rect>
+            </g>
+            <g transform="rotate(210 50 50)">
+              <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#000000">
+                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.3333333333333333s"
+                  repeatCount="indefinite"></animate>
+              </rect>
+            </g>
+            <g transform="rotate(240 50 50)">
+              <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#000000">
+                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.25s"
+                  repeatCount="indefinite"></animate>
+              </rect>
+            </g>
+            <g transform="rotate(270 50 50)">
+              <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#000000">
+                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.16666666666666666s"
+                  repeatCount="indefinite"></animate>
+              </rect>
+            </g>
+            <g transform="rotate(300 50 50)">
+              <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#000000">
+                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.08333333333333333s"
+                  repeatCount="indefinite"></animate>
+              </rect>
+            </g>
+            <g transform="rotate(330 50 50)">
+              <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#000000">
+                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="0s"
+                  repeatCount="indefinite">
+                </animate>
+              </rect>
+            </g>
+          </svg>
+        </button>
+      </form>
+    </div>
+    <div id="result" class="w-full basis-1/3 border-t-4 rounded-md overflow-auto">
+    </div>
+    <template id="result-template">
+      {{#each @root}}
+      <div class="outline-t-2 rounded-md pl-4 hover:bg-slate-100">
+        <p class="font-bold">
+          {{@key}}:
+        </p>
+        {{#if (isObj this)}}
+        <ul>
+          {{#each this}}
+          <li><span class="text-sky-600">{{@key}}:</span> {{this}}</li>
+          {{/each}}
+        </ul>
+        {{else}}
+        {{this}}
+        {{/if}}
+      </div>
+      {{/each}}
+    </template>
+
+
+  </div>
+</body>
+<script src="https://unpkg.com/htmx.org@1.9.9"></script>
+<script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
+<script src="https://unpkg.com/htmx.org/dist/ext/client-side-templates.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+<script>
+  Handlebars.registerHelper('isObj', function (value) {
+    return typeof value === 'object';
+  });
+</script>
+
+</html>
